@@ -1,10 +1,12 @@
+using System;
+
 namespace FizzBuzz.Core
 {
-	public class DivisibleByThree
+	public class DivisibleByThree: IRule
 	{
-		public string GetFizz(int i)
+		public string GetMessage(int val)
 		{
-			return i % 3 == 0 ? "fizz" : null;
+			return val % 3 == 0 ? "fizz" : null;
 		}
 	}
 }

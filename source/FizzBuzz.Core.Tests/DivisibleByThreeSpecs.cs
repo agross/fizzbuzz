@@ -12,7 +12,7 @@ namespace FizzBuzz.Core.Tests
 		
 		Establish context = () => { DivisibleByThree = new DivisibleByThree(); };
 
-		Because of = () => { fizz = DivisibleByThree.GetFizz(3); };
+		Because of = () => { fizz = DivisibleByThree.GetMessage(3); };
 
 		It should_return_fizz = () => fizz.ShouldEqual("fizz");
 	}
@@ -26,7 +26,7 @@ namespace FizzBuzz.Core.Tests
 		
 		Establish context = () => { DivisibleByThree = new DivisibleByThree(); };
 
-		Because of = () => { fizz = DivisibleByThree.GetFizz(2); };
+		Because of = () => { fizz = DivisibleByThree.GetMessage(2); };
 
 		It should_return_null = () => fizz.ShouldBeNull();
 	}

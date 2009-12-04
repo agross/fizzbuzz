@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-
 using Machine.Specifications;
 
 using Rhino.Mocks;
@@ -52,28 +50,5 @@ namespace FizzBuzz.Core.Tests
 
 		It should_return_the_last_value_unequal_to_null = 
 			() => Result.ShouldEqual("RuleTwoResult");
-	}
-
-	public interface IRule
-	{
-		string GetMessage(int val);
-	}
-
-	internal class RuleEvaluator
-	{
-		readonly IRule[] _rules;
-
-		public RuleEvaluator(IRule[] rules)
-		{
-			_rules = rules;
-		}
-
-		public string Evaluate(int value)
-		{
-			return _rules
-				.Select(x=>x.GetMessage(value))
-				.Where(x=>x!=null)
-				.Last();
-		}
 	}
 }
