@@ -2,7 +2,12 @@ using System.Linq;
 
 namespace FizzBuzz.Core
 {
-	public class RuleEvaluator
+	public interface IRuleEvaluator
+	{
+		string Evaluate(int value);
+	}
+
+	public class RuleEvaluator : IRuleEvaluator
 	{
 		readonly IRule[] _rules;
 
@@ -19,4 +24,5 @@ namespace FizzBuzz.Core
 				.Last();
 		}
 	}
+
 }
