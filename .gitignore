@@ -1,0 +1,19 @@
+# Lines that start with '#' are comments.
+
+bin
+Bin
+obj
+*.bak
+*.*scc
+*.suo
+*.xsx
+*.xss
+*.xsc
+*.user
+*.cache
+*.log
+*.Publish.xml
+*~
+~*
+*.swp
+_ReSharper.*
