@@ -5,29 +5,29 @@ using Machine.Specifications;
 namespace FizzBuzz.Core.Tests
 {
 	[Subject(typeof(DivisibleByThree))]
-	public class When_number_is_divisible_by_three
+	public class When_the_number_is_divisible_by_three
 	{
-		static string fizz;
+		static string Fizz;
 		static DivisibleByThree DivisibleByThree;
 		
 		Establish context = () => { DivisibleByThree = new DivisibleByThree(); };
 
-		Because of = () => { fizz = DivisibleByThree.GetMessage(3); };
+		Because of = () => { Fizz = DivisibleByThree.GetMessage(3); };
 
-		It should_return_fizz = () => fizz.ShouldEqual("fizz");
+		It should_return_fizz = () => Fizz.ShouldEqual("fizz");
 	}
 	
 	[Subject(typeof(DivisibleByThree))]
-	public class When_number_is_not_divisible_by_three
+	public class When_the_number_is_not_divisible_by_three
 	{
-		static string fizz;
+		static string Fizz;
 
 		static DivisibleByThree DivisibleByThree;
 		
 		Establish context = () => { DivisibleByThree = new DivisibleByThree(); };
 
-		Because of = () => { fizz = DivisibleByThree.GetMessage(2); };
+		Because of = () => { Fizz = DivisibleByThree.GetMessage(2); };
 
-		It should_return_null = () => fizz.ShouldBeNull();
+		It should_return_null = () => Fizz.ShouldBeNull();
 	}
 }

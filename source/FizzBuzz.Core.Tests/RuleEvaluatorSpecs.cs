@@ -13,6 +13,7 @@ namespace FizzBuzz.Core.Tests
 		static IRule One;
 		static IRule Two;
 		static IRule Three;
+		static FakeRule Four;
 		static string Result;
 	
 		Establish context = () =>
@@ -35,7 +36,9 @@ namespace FizzBuzz.Core.Tests
 					.IgnoreArguments()
 					.Return(null);
 
-				RuleEvaluator = new RuleEvaluator(new[]{One,Two,Three});
+				Four = new FakeRule();
+
+				RuleEvaluator = new RuleEvaluator(new[]{One,Two,Three,Four});
 			};
 
 
@@ -46,9 +49,27 @@ namespace FizzBuzz.Core.Tests
 				One.AssertWasCalled(x => x.GetMessage(42));
 				Two.AssertWasCalled(x => x.GetMessage(42));
 				Three.AssertWasCalled(x => x.GetMessage(42));
+				Four.WasCalled.ShouldBeTrue();
+				Four.ValueUsedForCall.ShouldEqual(42);
+				Four.NumberOfCallsMade.ShouldEqual(1);
 			};
 
 		It should_return_the_last_value_unequal_to_null = 
-			() => Result.ShouldEqual("RuleTwoResult");
+			() => Result.ShouldEqual("foo");
+	}
+
+	internal class FakeRule : IRule
+	{
+		public string GetMessage(int val)
+		{
+			WasCalled = true;
+			ValueUsedForCall = val;
+			NumberOfCallsMade++;
+			return "foo";
+		}
+
+		public bool WasCalled;
+		public int ValueUsedForCall;
+		public int NumberOfCallsMade;
 	}
 }

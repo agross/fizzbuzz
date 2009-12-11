@@ -19,10 +19,9 @@ namespace FizzBuzz.Core
 		public string Evaluate(int value)
 		{
 			return _rules
-				.Select(x=>x.GetMessage(value))
-				.Where(x=>x!=null)
+				.Select(x => x.GetMessage(value))
+				.Where(x => x != null)
 				.Last();
 		}
 	}
-
 }

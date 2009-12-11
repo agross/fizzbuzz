@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+
 using Machine.Specifications;
+
 using Rhino.Mocks;
 
 namespace FizzBuzz.Core.Tests
@@ -10,45 +11,48 @@ namespace FizzBuzz.Core.Tests
 	public class When_list_is_displayed
 	{
 		static Controller Controller;
-		static IEnumerable<int> NumberList;
+		static INumberSource NumberSource;
 		static IRuleEvaluator RuleEvaluator;
-
+		static IOutput Output;
 
 		Establish context = () =>
-		                    	{
-									NumberList = new[] { 1, 2, 3 };
-									RuleEvaluator = MockRepository.GenerateStub<IRuleEvaluator>();
-									Controller = new Controller(NumberList, RuleEvaluator);
-		                    	};
-		Because of = 
-			() => { Controller.WriteList(); };
+			{
+				Numbers = new List<int> { 1, 2, 3 };
 
-		It should_evaluate_every_given_number =
+				NumberSource = MockRepository.GenerateStub<INumberSource>();
+				NumberSource
+					.Stub(x => x.GetEnumerator())
+					.Return(Numbers.GetEnumerator());
+
+				RuleEvaluator = MockRepository.GenerateStub<IRuleEvaluator>();
+				RuleEvaluator
+					.Stub(x => x.Evaluate(0))
+					.IgnoreArguments()
+					.Return("TestMessage");
+
+				Output = MockRepository.GenerateStub<IOutput>();
+				Controller = new Controller(NumberSource, RuleEvaluator, Output);
+			};
+
+		Because of =
+			() => Controller.WriteList();
+
+		It should_evaluate_every_given_number_in_the_right_order =
 			() => RuleEvaluator
 			      	.GetArgumentsForCallsMadeOn(x => x.Evaluate(Arg<int>.Is.TypeOf))
 			      	.Select(x => x.First())
 			      	.Cast<int>()
-			      	.SequenceEqual(NumberList)
+			      	.SequenceEqual(Numbers)
 			      	.ShouldBeTrue();
+
+		It should_call_evaluate_for_every_number =
+			() => RuleEvaluator.AssertWasCalled(x => x.Evaluate(0),
+			                                    x => x.IgnoreArguments().Repeat.Times(3));
+
+		It should_print_the_evaluated_strings =
+			() => Output.AssertWasCalled(x => x.WriteLine(Arg<string>.Is.TypeOf),
+			                             x => x.Repeat.Times(3));
+
+		static List<int> Numbers;
 	}
-
-	public class Controller
-	{
-		readonly IEnumerable<int> _list;
-		readonly IRuleEvaluator _ruleEvaluator;
-
-		public Controller(IEnumerable<int> list, IRuleEvaluator ruleEvaluator)
-		{
-			_list = list;
-			_ruleEvaluator = ruleEvaluator;
-		}
-
-		public void WriteList()
-		{
-			foreach (var item in _list)
-				_ruleEvaluator.Evaluate(item);
-		}
-	}
-
-
 }
