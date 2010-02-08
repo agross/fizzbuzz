@@ -4,22 +4,23 @@ namespace FizzBuzz.Core
 {
 	public class Controller : IController
 	{
-		readonly IEnumerable<int> _list;
+		readonly IEnumerable<int> _numbers;
 		readonly IRuleEvaluator _ruleEvaluator;
 		readonly IOutput _output;
 
-		public Controller(INumberSource list, IRuleEvaluator ruleEvaluator, IOutput output)
+		public Controller(INumberSource numbers, IRuleEvaluator ruleEvaluator, IOutput output)
 		{
-			_list = list;
+			_numbers = numbers;
 			_ruleEvaluator = ruleEvaluator;
 			_output = output;
 		}
 
 		public void WriteList()
 		{
-			foreach (var item in _list)
+			foreach (var item in _numbers)
 			{
-				_output.WriteLine(_ruleEvaluator.Evaluate(item));
+			    var message = _ruleEvaluator.Evaluate(item);
+			    _output.WriteLine(message);
 			}
 		}
 	}

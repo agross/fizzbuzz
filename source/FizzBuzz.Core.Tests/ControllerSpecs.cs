@@ -7,52 +7,50 @@ using Rhino.Mocks;
 
 namespace FizzBuzz.Core.Tests
 {
-	[Subject(typeof(Controller))]
-	public class When_list_is_displayed
-	{
-		static Controller Controller;
-		static INumberSource NumberSource;
-		static IRuleEvaluator RuleEvaluator;
-		static IOutput Output;
+    [Subject(typeof(Controller))]
+    public class When_the_list_of_evaludated_numbers_is_written
+    {
+        static Controller Controller;
+        static INumberSource NumberSource;
+        static IRuleEvaluator RuleEvaluator;
+        static IOutput Output;
+        static List<int> Numbers;
 
-		Establish context = () =>
-			{
-				Numbers = new List<int> { 1, 2, 3 };
+        Establish context = () =>
+            {
+                Numbers = new List<int> { 1, 2, 3 };
 
-				NumberSource = MockRepository.GenerateStub<INumberSource>();
-				NumberSource
-					.Stub(x => x.GetEnumerator())
-					.Return(Numbers.GetEnumerator());
+                NumberSource = MockRepository.GenerateStub<INumberSource>();
+                NumberSource
+                    .Stub(x => x.GetEnumerator())
+                    .Return(Numbers.GetEnumerator());
 
-				RuleEvaluator = MockRepository.GenerateStub<IRuleEvaluator>();
-				RuleEvaluator
-					.Stub(x => x.Evaluate(0))
-					.IgnoreArguments()
-					.Return("TestMessage");
+                RuleEvaluator = MockRepository.GenerateStub<IRuleEvaluator>();
+                RuleEvaluator
+                    .Stub(x => x.Evaluate(0))
+                    .IgnoreArguments()
+                    .Return("TestMessage");
 
-				Output = MockRepository.GenerateStub<IOutput>();
-				Controller = new Controller(NumberSource, RuleEvaluator, Output);
-			};
+                Output = MockRepository.GenerateStub<IOutput>();
+                Controller = new Controller(NumberSource, RuleEvaluator, Output);
+            };
 
-		Because of =
-			() => Controller.WriteList();
+        Because of =
+            () => Controller.WriteList();
 
-		It should_evaluate_every_given_number_in_the_right_order =
-			() => RuleEvaluator
-			      	.GetArgumentsForCallsMadeOn(x => x.Evaluate(Arg<int>.Is.TypeOf))
-			      	.Select(x => x.First())
-			      	.Cast<int>()
-			      	.SequenceEqual(Numbers)
-			      	.ShouldBeTrue();
+        It should_evaluate_every_given_number_in_the_right_order =
+            () => RuleEvaluator
+                      .GetArgumentsForCallsMadeOn(x => x.Evaluate(Arg<int>.Is.TypeOf))
+                      .Select(x => x.First())
+                      .Cast<int>()
+                      .ShouldEqual(Numbers);
 
-		It should_call_evaluate_for_every_number =
-			() => RuleEvaluator.AssertWasCalled(x => x.Evaluate(0),
-			                                    x => x.IgnoreArguments().Repeat.Times(3));
+        It should_evaluate_every_number =
+            () => RuleEvaluator.AssertWasCalled(x => x.Evaluate(0),
+                                                x => x.IgnoreArguments().Repeat.Times(3));
 
-		It should_print_the_evaluated_strings =
-			() => Output.AssertWasCalled(x => x.WriteLine(Arg<string>.Is.TypeOf),
-			                             x => x.Repeat.Times(3));
-
-		static List<int> Numbers;
-	}
+        It should_output_the_evaluated_message_for_each_number =
+            () => Output.AssertWasCalled(x => x.WriteLine(Arg<string>.Is.TypeOf),
+                                         x => x.Repeat.Times(3));
+    }
 }

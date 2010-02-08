@@ -1,75 +1,83 @@
-using System;
-using System.Collections.Generic;
 using Machine.Specifications;
 
 using Rhino.Mocks;
 
 namespace FizzBuzz.Core.Tests
 {
-	[Subject(typeof(RuleEvaluator))]
-	public class When_the_evaluation_is_called
-	{
-		static RuleEvaluator RuleEvaluator;
-		static IRule One;
-		static IRule Two;
-		static IRule Three;
-		static FakeRule Four;
-		static string Result;
-	
-		Establish context = () =>
-			{
-				One = MockRepository.GenerateStub<IRule>();
-				One
-					.Stub(x => x.GetMessage(0))
-					.IgnoreArguments()
-					.Return(null);
+    [Subject(typeof(DefaultRuleEvaluator))]
+    public class When_a_number_is_evaluated
+    {
+        static DefaultRuleEvaluator RuleEvaluator;
+        static IRule One;
+        static IRule Two;
+        static IRule Three;
+        static FakeRule Four;
+        static string Result;
 
-				Two = MockRepository.GenerateStub<IRule>();
-				Two
-					.Stub(x => x.GetMessage(0))
-					.IgnoreArguments()
-					.Return("RuleTwoResult");
+        Establish context = () =>
+            {
+                One = MockRepository.GenerateStub<IRule>();
+                One
+                    .Stub(x => x.GetMessage(0))
+                    .IgnoreArguments()
+                    .Return(null);
 
-				Three = MockRepository.GenerateStub<IRule>();
-				Three
-					.Stub(x => x.GetMessage(0))
-					.IgnoreArguments()
-					.Return(null);
+                Two = MockRepository.GenerateStub<IRule>();
+                Two
+                    .Stub(x => x.GetMessage(0))
+                    .IgnoreArguments()
+                    .Return("RuleTwoResult");
 
-				Four = new FakeRule();
+                Three = MockRepository.GenerateStub<IRule>();
+                Three
+                    .Stub(x => x.GetMessage(0))
+                    .IgnoreArguments()
+                    .Return(null);
 
-				RuleEvaluator = new RuleEvaluator(new[]{One,Two,Three,Four});
-			};
+                Four = new FakeRule();
 
+                RuleEvaluator = new DefaultRuleEvaluator(new[] { One, Two, Three, Four });
+            };
 
-		Because of = () => { Result = RuleEvaluator.Evaluate(42); };
+        Because of = 
+            () => { Result = RuleEvaluator.Evaluate(42); };
 
-		It should_ask_all_rules = () =>
-			{
-				One.AssertWasCalled(x => x.GetMessage(42));
-				Two.AssertWasCalled(x => x.GetMessage(42));
-				Three.AssertWasCalled(x => x.GetMessage(42));
-				Four.WasCalled.ShouldBeTrue();
-				Four.ValueUsedForCall.ShouldEqual(42);
-				Four.NumberOfCallsMade.ShouldEqual(1);
-			};
+        It should_evaluate_the_first_rule =
+            () => One.AssertWasCalled(x => x.GetMessage(42));
 
-		It should_return_the_last_value_unequal_to_null = 
-			() => Result.ShouldEqual("foo");
-	}
+        It should_evaluate_the_second_rule =
+            () => Two.AssertWasCalled(x => x.GetMessage(42));
 
-	internal class FakeRule : IRule
-	{
-		public string GetMessage(int val)
-		{
-			WasCalled = true;
-			ValueUsedForCall = val;
-			NumberOfCallsMade++;
-			return "foo";
-		}
+        It should_evaluate_the_third_rule =
+            () => Three.AssertWasCalled(x => x.GetMessage(42));
 
-		public bool WasCalled;
-		public int ValueUsedForCall;
-		public int NumberOfCallsMade;
-	}
+        It should_evaluate_the_fourth_rule =
+            () => Four.WasCalled.ShouldBeTrue();
+
+        It should_evaluate_the_fourth_rule_with_the_number_to_be_evaluated =
+            () => Four.ValueUsedForCall.ShouldEqual(42);
+
+        It should_evaluate_the_fourth_rule_once =
+            () => Four.NumberOfCallsMade.ShouldEqual(1);
+
+        It should_return_the_last_value_unequal_to_null =
+            () => Result.ShouldEqual("foo");
+    }
+
+    // Just to demo a hand-rolled stub and how tedious they are to assert 
+    // (see the three "It" specifications required instead of one).
+    internal class FakeRule : IRule
+    {
+        public int NumberOfCallsMade;
+        public int ValueUsedForCall;
+        public bool WasCalled;
+
+        public string GetMessage(int val)
+        {
+            WasCalled = true;
+            ValueUsedForCall = val;
+            NumberOfCallsMade++;
+            return "foo";
+        }
+    }
 }

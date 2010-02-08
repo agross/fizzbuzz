@@ -2,7 +2,7 @@ using System;
 
 namespace FizzBuzz.Core
 {
-	public class Output : IOutput
+	public class ConsoleOutput : IOutput
 	{
 		public void WriteLine(string message)
 		{

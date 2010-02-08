@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerSpecs.cs" />
+    <Compile Include="DivisibleByThreeAndFiveSpecs.cs" />
+    <Compile Include="DivisibleByFiveSpecs.cs" />
     <Compile Include="DivisibleByThreeSpecs.cs" />
     <Compile Include="NumberSourceSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

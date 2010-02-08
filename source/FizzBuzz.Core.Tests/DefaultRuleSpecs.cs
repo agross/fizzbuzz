@@ -1,24 +1,20 @@
-using System;
-
 using Machine.Specifications;
 
 namespace FizzBuzz.Core.Tests
 {
-	[Subject(typeof(DefaultRule))]
-	public class When_the_default_rule_is_called_with_any_number_
-	{
-		static DefaultRule DefaultRule;
-		static string Message;
-		Establish context = () =>
-			{
-				DefaultRule = new DefaultRule();
-			};
+    [Subject(typeof(DefaultRule))]
+    public class When_the_default_rule_is_evaluated_with_any_number
+    {
+        static DefaultRule Rule;
+        static string Message;
 
-		Because of = () =>
-			{
-				Message = DefaultRule.GetMessage(1);
-			};
+        Establish context = 
+            () => { Rule = new DefaultRule(); };
 
-		It should_output_the_number_as_string = () => Message.ShouldEqual("1");
-	}
+        Because of =
+            () => { Message = Rule.GetMessage(1); };
+
+        It should_yield_the_number_formatted_as_a_string =
+            () => Message.ShouldEqual("1");
+    }
 }

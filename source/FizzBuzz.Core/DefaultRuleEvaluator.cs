@@ -2,16 +2,11 @@ using System.Linq;
 
 namespace FizzBuzz.Core
 {
-	public interface IRuleEvaluator
-	{
-		string Evaluate(int value);
-	}
-
-	public class RuleEvaluator : IRuleEvaluator
+    public class DefaultRuleEvaluator : IRuleEvaluator
 	{
 		readonly IRule[] _rules;
 
-		public RuleEvaluator(IRule[] rules)
+		public DefaultRuleEvaluator(IRule[] rules)
 		{
 			_rules = rules;
 		}
