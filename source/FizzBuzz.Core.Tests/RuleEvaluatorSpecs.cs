@@ -60,7 +60,7 @@ namespace FizzBuzz.Core.Tests
         It should_evaluate_the_fourth_rule_once =
             () => Four.NumberOfCallsMade.ShouldEqual(1);
 
-        It should_return_the_last_value_unequal_to_null =
+        It should_yield_the_last_rule_evaluation_result_that_is_unequal_to_null =
             () => Result.ShouldEqual("foo");
     }
 

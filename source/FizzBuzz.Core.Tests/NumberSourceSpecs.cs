@@ -5,24 +5,8 @@ using Machine.Specifications;
 
 namespace FizzBuzz.Core.Tests
 {
-    [Subject(typeof(NumberSource))]
-    public class When_a_the_first_number_is_queried
-    {
-        static NumberSource NumberSource;
-        static int FirstNumber;
-
-        Establish context =
-            () => { NumberSource = new NumberSource(); };
-
-        Because of =
-            () => { FirstNumber = NumberSource.First(); };
-
-        It should_be_the_equal_to_one =
-            () => FirstNumber.ShouldEqual(1);
-    }
-
-    [Subject(typeof(NumberSource))]
-    public class When_a_number_source_is_created
+	[Subject(typeof(NumberSource))]
+    public class When_the_number_source_is_generated
     {
         static NumberSource NumberSource;
 
@@ -33,8 +17,24 @@ namespace FizzBuzz.Core.Tests
             () => NumberSource.ShouldBeOfType<IEnumerable<int>>();
     }
 
-    [Subject(typeof(NumberSource))]
-    public class When_a_the_second_number_is_queried
+	[Subject(typeof(NumberSource))]
+	public class When_the_first_number_is_generated
+	{
+		static NumberSource NumberSource;
+		static int FirstNumber;
+
+		Establish context =
+			() => { NumberSource = new NumberSource(); };
+
+		Because of =
+			() => { FirstNumber = NumberSource.First(); };
+
+		It should_be_the_equal_to_one =
+			() => FirstNumber.ShouldEqual(1);
+	}
+
+	[Subject(typeof(NumberSource))]
+	public class When_the_second_number_is_generated
     {
         static NumberSource NumberSource;
         static int SecondNumber;
@@ -50,7 +50,7 @@ namespace FizzBuzz.Core.Tests
     }
 
     [Subject(typeof(NumberSource))]
-    public class When_the_last_number_was_queried
+    public class When_the_last_number_is_generated
     {
         static NumberSource NumberSource;
         static int LastNumber;

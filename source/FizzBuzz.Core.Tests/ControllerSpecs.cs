@@ -8,7 +8,7 @@ using Rhino.Mocks;
 namespace FizzBuzz.Core.Tests
 {
     [Subject(typeof(Controller))]
-    public class When_the_list_of_evaludated_numbers_is_written
+    public class When_the_list_of_evaluated_numbers_is_written
     {
         static Controller Controller;
         static INumberSource NumberSource;
@@ -38,7 +38,7 @@ namespace FizzBuzz.Core.Tests
         Because of =
             () => Controller.WriteList();
 
-        It should_evaluate_every_given_number_in_the_right_order =
+        It should_process_every_number_from_the_number_source =
             () => RuleEvaluator
                       .GetArgumentsForCallsMadeOn(x => x.Evaluate(Arg<int>.Is.TypeOf))
                       .Select(x => x.First())
