@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz.Core", "FizzBuzz.Core\FizzBuzz.Core.csproj", "{27309535-28A8-4957-B1F1-127641B108A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz.Core", "source\FizzBuzz.Core\FizzBuzz.Core.csproj", "{27309535-28A8-4957-B1F1-127641B108A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz.Core.Tests", "FizzBuzz.Core.Tests\FizzBuzz.Core.Tests.csproj", "{8119040F-35C5-4204-A02D-653DA154A0A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz.Core.Tests", "source\FizzBuzz.Core.Tests\FizzBuzz.Core.Tests.csproj", "{8119040F-35C5-4204-A02D-653DA154A0A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz.App", "FizzBuzz.App\FizzBuzz.App.csproj", "{F6248AFF-95FC-4D60-896A-BDEEABF410E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz.App", "source\FizzBuzz.App\FizzBuzz.App.csproj", "{F6248AFF-95FC-4D60-896A-BDEEABF410E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
